@@ -1,0 +1,28 @@
+# Configuration file to dynamically load engines
+# This configuration file dynamically loads a PKCS#11 engine from a DLL
+# (this is a Windows example).
+# Note: It is important to know that while the order of sections is not
+# of any matter, the order of the parameters inside the [pkcs11_section]
+# is very important and should be kept this way:
+# First the path to the shared object (or DLL), then the engine's ID and
+# afterwards any -pre commands you would like to issue (engine specific 
+# functions like in this case MODULE_PATH). LOAD and LIST_ADD are not 
+# required here. Afterwards init=1 will create a functional reference.
+# After this it is possible to set further parameters (like in this case
+# a PIN).
+
+openssl_conf=openssl_def
+
+[pkcs11_section]
+dynamic_path=C:\\path\\to\\engine_pkcs11.dll
+engine_id=pkcs11
+MODULE_PATH=C:\\path\\to\\pkcs11_module.dll
+init=1
+PIN=my_user_PIN
+
+
+[openssl_def]
+engines=engine_section
+
+[engine_section]
+pkcs11=pkcs11_section
